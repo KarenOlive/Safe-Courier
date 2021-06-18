@@ -1,7 +1,9 @@
-const express = require('express');
+// const express = require('express');
+import express from 'express';
 const server = express();
 
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
 
 const hostname = 'localhost';
