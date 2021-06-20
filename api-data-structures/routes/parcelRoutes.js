@@ -12,8 +12,6 @@ router.post('/parcels', createParcel);
 
 router.put('/parcels/:parcelId/cancel', cancelParcel);
 
-router.patch('/parcels/:parcelId/cancel', cancelParcel);
-
 
 router.get('/users/:userId/parcels', getUsersParcels);
 

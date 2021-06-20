@@ -1,5 +1,7 @@
 // import { v4 as uuidv4} from "uuid";
 const {v4 : uuidv4} = require('uuid')
+
+const {users} = require('./users');
 //Array of parcels
 const parcels = [];
 
@@ -34,8 +36,9 @@ exports.getParcel = async (req, res)=>{
 exports.createParcel = async (req,res) =>{
     try{
         const parcel = req.body
+        const userId = users.userId
         // parcels.push({ ...parcel, parcelId: uuidv4(), userId: req.userData.userId, status: req.body.status })
-      parcels.push({ ...parcel, parcelId: uuidv4(), status: req.body.status })
+      parcels.push({ ...parcel, parcelId: uuidv4(), status: req.body.status, presentLocation: req.body.presentLocation, Sender: req.body.Sender })
         res.status(200).send(`Parcel order ID ${parcel.parcelId} has been created.`)
         console.log(parcel)
     }
@@ -52,21 +55,19 @@ exports.cancelParcel = async (req, res)=>{
     try{
         const {parcelId} = req.params
 
-           // const foundParcel = await parcels.find((parcel) => parcel.parcelId === parcelId)
 
             //Find index of specific object using findIndex method. 
             const parcelIndex = await parcels.findIndex((parcel) => parcel.parcelId === parcelId)  
         
-       
-        //parcels[parcelIndex].status = 'cancelled';
-       // foundParcel.status = 'cancelled';
+        //the update
+        parcels[parcelIndex].status = 'cancelled';
 
 
         
 
-        //the update
+        
         //newParcels[parcelIndex] = {...newParcels[parcelIndex], status: "cancelled"}
-         parcels[parcelIndex] = {...parcels[parcelIndex], status: "cancelled"}
+        // parcels[parcelIndex] = {...parcels[parcelIndex], status: "cancelled"}
 
          
         res.status(200).json({
@@ -90,7 +91,7 @@ exports.cancelParcel = async (req, res)=>{
 
 exports.getUsersParcels = async (req, res)=>{
     try{
-        const userParcels = await parcels.filter((parcel)=> parcel.userId === req.userData.userId)
+        const userParcels = await parcels.filter((parcel)=> parcel.userId === req.params.userId)
         if(userParcels){
             return res.status(200).json({yourParcels: userParcels})
         }
