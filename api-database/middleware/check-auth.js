@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-module.exports = (req, res, next)=>{
+import jwt from 'jsonwebtoken';
+export const checkAuth = (req, res, next)=>{
     const token = req.header('auth-token');
     if(!token) {
         res.status(401).json({ //401 means resource can not be accessed

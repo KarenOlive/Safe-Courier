@@ -7,8 +7,8 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import parcelRoutes from './routes/parcelRoutes';
-import usersRoutes from './routes/usersRoutes';
+import { usersRoutes } from './routes/usersRoutes.js'
+import { parcelRoutes } from './routes/parcelRoutes.js';
 
 const hostname = 'localhost';
 const port = process.env.PORT || 8080
