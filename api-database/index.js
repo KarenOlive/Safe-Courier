@@ -25,7 +25,7 @@ server.get('/data', (req, res)=> res.json({parcelId: "1", parcel: "Toothbrush"})
 
 
 
-mongoose.connect(uri, { useNewUrlParser: true,useUnifiedTopology: true  });
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true  }, () => console.log("MongoDB Connected"));
 const db = mongoose.connection
 
 db.on('error', (error)=> console.log('connection error'+ error));
