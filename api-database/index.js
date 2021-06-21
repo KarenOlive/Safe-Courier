@@ -12,7 +12,7 @@ import { parcelRoutes } from './routes/parcelRoutes.js';
 
 const hostname = 'localhost';
 const port = process.env.PORT || 8080
-
+const uri = process.env.DatabaseURI;
 
 server.use(express.json()); 
 server.use(express.urlencoded({ extended: true }));
@@ -25,7 +25,7 @@ server.get('/data', (req, res)=> res.json({parcelId: "1", parcel: "Toothbrush"})
 
 
 
-mongoose.connect(process.env.databaseURL, { useNewUrlParser: true,useUnifiedTopology: true  });
+mongoose.connect(uri, { useNewUrlParser: true,useUnifiedTopology: true  });
 const db = mongoose.connection
 
 db.on('error', (error)=> console.log('connection error'+ error));
