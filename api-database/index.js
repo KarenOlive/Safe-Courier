@@ -23,7 +23,8 @@ server.use(cors());
 server.use(express.json()); 
 server.use(express.urlencoded({ extended: true }));
 server.use((req, res)=>{
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000', 'https://safe-courier.netlify.app')
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
+    res.header('Access-Control-Allow-Origin', 'https://safe-courier.netlify.app')
 })
 server.use('/', parcelRoutes);
 server.use('/', usersRoutes);
