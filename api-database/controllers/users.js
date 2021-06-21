@@ -10,13 +10,12 @@ export const show_decoded_token_data = async (req, res)=>{
 
 
 export const user_signup = async (req, res)=>{
-        
-   //Checking if user is already in the database
-   const emailExist = await users.findOne({Email: req.body.Email});
-   if(emailExist) return res.status(400).send("Email already exists");
-   
   
    try{
+       //Checking if user is already in the database
+        const emailExist = await users.findOne({Email: req.body.Email});
+        if(emailExist) return res.status(400).send("Email already exists");
+
        const salt = await bcrypt.genSalt()
        const hashedPassword = await bcrypt.hash(req.body.Password, salt)
 
