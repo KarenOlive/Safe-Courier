@@ -256,7 +256,7 @@ export const cancel_parcelOrder = async (req, res) =>{
         }
 
         try{
-            if(parcel.isParcelCreator(req.userData.userId)){
+            if(parcel.isParcelCreator(req.userData.userId) || parcel.isAdmin(req.userData.Email)){
                 if(parcel.cancelOrder()){
                     await parcel.updateOne(
                         { $set: { "status" : "cancelled" } }
