@@ -9,7 +9,7 @@ const parcelOrderSchema = new Schema({
     Destination: {type: String, required: true},
     City: {type: String, required: true},
     status: {type: String, default: "confirmed" },
-    dateCreated: {type: Date, default: Date().now },
+    dateCreated: {type: Date, default: Date.now },
     presentLocation: {type: String, default: "" },
     Sender:{id:{type: mongoose.Schema.Types.ObjectId,ref: 'users'},
                 Fullname: {type: String, ref: 'users'}}
@@ -24,7 +24,7 @@ const parcelOrderSchema = new Schema({
     });
 
     parcelOrderSchema.method('isAdmin', function (Email){
-        if("johndoe@mail.com" == Email){
+        if("johndoe@mail.com" === Email){
             return true;
         }
         else {
