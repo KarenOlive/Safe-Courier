@@ -35,22 +35,22 @@ export const create_Parcel = async (req, res)=>{
 
 export const change_Destination = async (req, res) =>{
     const parcelId = req.params.parcelId;
-       
+
+    try{
+        const parcel = await parcels.findById(parcelId);
+        if (!parcel) {
+            return res
+              .status(404)
+              .send(`No question with id: ${parcelId} 🤗`);
+        }
 
         try{
-            if(parcels.isParcelCreator(req.userData.userId)){
-                await parcels.updateOne( { _id: parcelId },
+            if(parcel.isParcelCreator(req.userData.userId)){
+              const updatedParcel = await parcel.updateOne(
                    { $set: { "Destination": req.body.Destination } }
                 )
-                
-                const parcel = await parcels.findById(parcelId);
-                if (!parcel) {
-                    return res
-                  .status(404)
-                  .send(`No question with id: ${parcelId} 🤗`);
-                   return res.status(200).send(parcel)
+                return res.status(200).send(updatedParcel)
 
-                }
             }
             else{
                 return res
@@ -59,13 +59,17 @@ export const change_Destination = async (req, res) =>{
             }
         }
         catch(err){
-            res.json({
+            console.log(err)
+
+        }
+
+    }
+    catch(err){
+        res.json({
             message : "Failed to update destination"
         })
         console.log(err)
-        }
-
-    
+    }
    
 
 }
