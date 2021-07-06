@@ -46,10 +46,10 @@ export const change_Destination = async (req, res) =>{
 
         try{
             if(parcel.isParcelCreator(req.userData.userId)){
-                await parcel.updateOne(
+              const updatedParcel = await parcel.updateOne(
                    { $set: { "Destination": req.body.Destination } }
                 )
-                return res.status(200).send(parcel)
+                return res.status(200).send(updatedParcel)
 
             }
             else{
