@@ -28,7 +28,6 @@ server.use('/', usersRoutes);
 
 
 server.get('/', (req, res)=> res.send('Safe Courier RESTful API'));
-server.get('/data', (req, res)=> res.json({parcelId: "1", parcel: "Toothbrush"}))
 
 
 

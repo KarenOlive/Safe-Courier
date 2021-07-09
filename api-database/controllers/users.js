@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 
 import users from '../models/usersSchema.js';
 import parcels from '../models/parcelOrderSchema.js';
+import { userLogIn, userSignUp } from '../helpers/validation.js';
 
 export const show_decoded_token_data = async (req, res)=>{
     res.send(req.userData)
@@ -10,7 +11,12 @@ export const show_decoded_token_data = async (req, res)=>{
 
 
 export const user_signup = async (req, res)=>{
-  
+    
+    const { error } =  userSignUp(req.body)
+    if (error) {
+        return res.status(400).send(error.details[0].message);
+    }
+
     //Checking if user is already in the database
     const emailExist = await users.findOne({Email: req.body.Email});
     if(emailExist) return res.status(400).send("Email already exists");
@@ -21,13 +27,14 @@ export const user_signup = async (req, res)=>{
        const salt = await bcrypt.genSalt()
        const hashedPassword = await bcrypt.hash(req.body.Password, salt)
 
-       const user = new users({
+        // can also use 'await users.create({})'
+       const user = await new users({
            Fullname: req.body.Fullname,
            Email: req.body.Email,
            Password: hashedPassword
        });
        await user.save()
-       res.status(200).json({
+       res.status(201).json({
            user: user,
            message: "You have successfully signed up"
        })
@@ -45,7 +52,12 @@ export const user_signup = async (req, res)=>{
 
 
 export const user_login = async (req, res)=>{
-   
+
+    const { error } =  userLogIn(req.body)
+    if (error) {
+        return res.status(400).send(error.details[0].message);
+    }
+
     const user = await users.findOne({Email: req.body.Email})
     if(!user){
          return res.status(400).json({message: "Wrong Email"});
